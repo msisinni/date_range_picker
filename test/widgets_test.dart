@@ -18,25 +18,25 @@ void main() {
     });
   });
 
-  group('DateRangePickerWidget', () {
+  group('DateTimeRangePickerWidget', () {
     testWidgets('renders correctly and initializes with initial dateRange',
         (WidgetTester tester) async {
-      final initialDateRange = DateRange(DateTime(2023, 1, 1), DateTime(2023, 1, 5));
+      final initialDateTimeRange = DateTimeRange(start: DateTime(2023, 1, 1),end: DateTime(2023, 1, 5));
       final minDate = DateTime(2022, 1, 1);
       final maxDate = DateTime(2023, 12, 31);
 
       await tester.pumpWidget(MaterialApp(
         home: Scaffold(
-          body: DateRangePickerWidget(
-            initialDateRange: initialDateRange,
+          body: DateTimeRangePickerWidget(
+            initialDateTimeRange: initialDateTimeRange,
             minDate: minDate,
             maxDate: maxDate,
-            onDateRangeChanged: (DateRange? dateRange) {},
+            onDateTimeRangeChanged: (DateTimeRange? dateRange) {},
           ),
         ),
       ));
 
-      expect(find.byType(DateRangePickerWidget), findsOneWidget);
+      expect(find.byType(DateTimeRangePickerWidget), findsOneWidget);
       expect(find.byType(MonthSelectorAndDoubleIndicator), findsOneWidget);
       expect(find.byType(DayNamesRow), findsNWidgets(2));
       expect(find.byType(MonthWrapWidget), findsNWidgets(2));

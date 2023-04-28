@@ -3,40 +3,40 @@ import 'package:flutter_date_range_picker/flutter_date_range_picker.dart';
 import 'package:flutter_date_range_picker/src/widgets/typedefs.dart';
 
 /// A [StatelessWidget] that provides a field to select a date range dateRange.
-class DateRangeField extends StatelessWidget {
-  /// Creates a [DateRangeField].
+class DateTimeRangeField extends StatelessWidget {
+  /// Creates a [DateTimeRangeField].
   ///
   /// * [decoration] - The decoration to show around the field. If null, defaults to [InputDecoration].
-  /// * [selectedDateRange] - The selected date range for the field.
-  /// * [onDateRangeSelected] - Called when a date range is selected.
+  /// * [selectedDateTimeRange] - The selected date range for the field.
+  /// * [onDateTimeRangeSelected] - Called when a date range is selected.
   /// * [childBuilder] - A builder to construct the child widget of the field.
   /// * [enabled] - Whether the field is enabled or not.
   /// * [pickerBuilder] - A builder to construct the date range picker widget.
   /// * [dialogFooterBuilder] - A builder to construct the footer widget of the dialog.
-  /// * [showDateRangePicker] - A function to show the date range picker dialog, defaults to [showDateRangePickerDialogOnWidget].
-  const DateRangeField({
+  /// * [showDateTimeRangePicker] - A function to show the date range picker dialog, defaults to [showDateTimeRangePickerDialogOnWidget].
+  const DateTimeRangeField({
     Key? key,
     this.decoration,
-    this.selectedDateRange,
-    this.onDateRangeSelected,
+    this.selectedDateTimeRange,
+    this.onDateTimeRangeSelected,
     this.childBuilder,
     this.dialogFooterBuilder,
     this.enabled = true,
     required this.pickerBuilder,
-    this.showDateRangePicker = showDateRangePickerDialogOnWidget,
+    this.showDateTimeRangePicker = showDateTimeRangePickerDialogOnWidget,
   }) : super(key: key);
 
-  final Widget Function({DateRange? selectedDateRange})? dialogFooterBuilder;
-  final DateRangerPickerWidgetBuilder pickerBuilder;
+  final Widget Function({DateTimeRange? selectedDateTimeRange})? dialogFooterBuilder;
+  final DateTimeRangerPickerWidgetBuilder pickerBuilder;
   final InputDecoration? decoration;
   final bool enabled;
-  final DateRange? selectedDateRange;
-  final ValueChanged<DateRange?>? onDateRangeSelected;
-  final Widget Function(BuildContext, DateRange?)? childBuilder;
-  final Future<DateRange?> Function({
+  final DateTimeRange? selectedDateTimeRange;
+  final ValueChanged<DateTimeRange?>? onDateTimeRangeSelected;
+  final Widget Function(BuildContext, DateTimeRange?)? childBuilder;
+  final Future<DateTimeRange?> Function({
     required BuildContext widgetContext,
-    required DateRangerPickerWidgetBuilder pickerBuilder,
-  }) showDateRangePicker;
+    required DateTimeRangerPickerWidgetBuilder pickerBuilder,
+  }) showDateTimeRangePicker;
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +48,10 @@ class DateRangeField extends StatelessWidget {
       onTap: generateOnTap(context),
       child: InputDecorator(
         decoration: inputDecoration,
-        isEmpty: selectedDateRange == null,
-        child: childBuilder?.call(context, selectedDateRange) ??
+        isEmpty: selectedDateTimeRange == null,
+        child: childBuilder?.call(context, selectedDateTimeRange) ??
             Text(
-              selectedDateRange?.toString() ?? '',
+              selectedDateTimeRange?.toString() ?? '',
             ),
       ),
     );
@@ -60,12 +60,12 @@ class DateRangeField extends StatelessWidget {
   VoidCallback? generateOnTap(BuildContext context) {
     if (enabled) {
       return () async {
-        final DateRange? dateRange = await showDateRangePicker(
+        final DateTimeRange? dateRange = await showDateTimeRangePicker(
           widgetContext: context,
           pickerBuilder: pickerBuilder,
         );
 
-        onDateRangeSelected?.call(dateRange);
+        onDateTimeRangeSelected?.call(dateRange);
       };
     } else {
       return null;

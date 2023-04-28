@@ -31,51 +31,51 @@ Then, run flutter packages get in your terminal.
 
 ## Usage 📖
 
-To use the Date Range Picker, simply import the package and create a DateRangePickerWidget:
+To use the Date Range Picker, simply import the package and create a DateTimeRangePickerWidget:
 
 ```dart
-DateRangePickerWidget(
+DateTimeRangePickerWidget(
     doubleMonth: doubleMonth,
-    maximumDateRangeLength: 10,
-    minimumDateRangeLength: 3,
-    initialDateRange: selectedDateRange,
+    maximumDateTimeRangeLength: 10,
+    minimumDateTimeRangeLength: 3,
+    initialDateTimeRange: selectedDateTimeRange,
     disabledDates: [DateTime(2023, 11, 20)],
     initialDisplayedDate:
-    selectedDateRange?.start ?? DateTime(2023, 11, 20),
-    onDateRangeChanged: onDateRangeChanged,
+    selectedDateTimeRange?.start ?? DateTime(2023, 11, 20),
+    onDateTimeRangeChanged: onDateTimeRangeChanged,
 );
 ```
 
-You can also use the <b>DateRangeField</b> or <b>DateRangeFormField</b> to display a dialog asking the user to select a
+You can also use the <b>DateTimeRangeField</b> or <b>DateTimeRangeFormField</b> to display a dialog asking the user to select a
 date range, and to display the selected range. Here is an example:
 
 ```dart
-DateRangeField(
+DateTimeRangeField(
     decoration: InputDecoration(
         label: Text("Date range picker"),
         hintText: 'Please select a date range',
     ),
-    onDateRangeSelected: (DateRange? value) {
+    onDateTimeRangeSelected: (DateTimeRange? value) {
     // Handle the selected date range here
     },
-  selectedDateRange: selectedRange,
+  selectedDateTimeRange: selectedRange,
 );
 ```
 
-Lastly, you can use the <b>showDateRangePickerDialog</b> function to display a dialog asking the user to select a date
+Lastly, you can use the <b>showDateTimeRangePickerDialog</b> function to display a dialog asking the user to select a date
 range:
 
 ```dart
-showDateRangePickerDialog(
+showDateTimeRangePickerDialog(
     context: context, 
     builder: datePickerBuilder
 );
 ...
 
-Widget datePickerBuilder(BuildContext context, dynamic Function(DateRange) onDateRangeChanged) => DateRangePickerWidget(
+Widget datePickerBuilder(BuildContext context, dynamic Function(DateTimeRange) onDateTimeRangeChanged) => DateTimeRangePickerWidget(
     doubleMonth: true,
-    initialDateRange: selectedDateRange,
-    onDateRangeChanged: onDateRangeChanged,
+    initialDateTimeRange: selectedDateTimeRange,
+    onDateTimeRangeChanged: onDateTimeRangeChanged,
 );
 
 ```
@@ -85,8 +85,8 @@ Widget datePickerBuilder(BuildContext context, dynamic Function(DateRange) onDat
 You can customize the appearance of the Date Range Picker by providing a custom CalendarTheme:
 
 ```dart
-DateRangePickerWidget(
-    onDateRangeChanged: (dateRange) {
+DateTimeRangePickerWidget(
+    onDateTimeRangeChanged: (dateRange) {
     // Handle the selected dateRange here
     },
     theme: CalendarTheme(

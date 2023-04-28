@@ -5,21 +5,21 @@ import 'package:flutter_date_range_picker/flutter_date_range_picker.dart';
 class QuickSelectorWidget extends StatelessWidget {
   const QuickSelectorWidget({
     Key? key,
-    required this.selectedDateRange,
-    required this.quickDateRanges,
-    required this.onDateRangeChanged,
+    required this.selectedDateTimeRange,
+    required this.quickDateTimeRanges,
+    required this.onDateTimeRangeChanged,
     required this.theme,
   }) : super(key: key);
 
   /// The dateRange that is currently selected. A line will be displayed on the left
-  /// using the [CalendarTheme.selectedQuickDateRangeColor] color.
-  final DateRange? selectedDateRange;
+  /// using the [CalendarTheme.selectedQuickDateTimeRangeColor] color.
+  final DateTimeRange? selectedDateTimeRange;
 
   /// The list of quick dateRanges to display.
-  final List<QuickDateRange> quickDateRanges;
+  final List<QuickDateTimeRange> quickDateTimeRanges;
 
   /// Called when a quick dateRange is selected.
-  final ValueChanged<DateRange?> onDateRangeChanged;
+  final ValueChanged<DateTimeRange?> onDateTimeRangeChanged;
 
   /// The theme of the calendar.
   final CalendarTheme theme;
@@ -30,18 +30,16 @@ class QuickSelectorWidget extends StatelessWidget {
       width: double.infinity,
       child: ListView(
         children: [
-          for (final quickDateRange in quickDateRanges)
+          for (final quickDateTimeRange in quickDateTimeRanges)
             Row(
               children: [
                 Container(
                   width: 4,
                   height: 20,
                   decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.horizontal(
-                        right: Radius.circular(2)),
-                    color: quickDateRange.dateRange == selectedDateRange
-                        ? theme.selectedQuickDateRangeColor ??
-                            Theme.of(context).primaryColor
+                    borderRadius: const BorderRadius.horizontal(right: Radius.circular(2)),
+                    color: quickDateTimeRange.dateRange == selectedDateTimeRange
+                        ? theme.selectedQuickDateTimeRangeColor ?? Theme.of(context).primaryColor
                         : Colors.transparent,
                   ),
                 ),
@@ -51,13 +49,13 @@ class QuickSelectorWidget extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     child: InkWell(
                       borderRadius: BorderRadius.circular(8),
-                      onTap: () => onDateRangeChanged(quickDateRange.dateRange),
+                      onTap: () => onDateTimeRangeChanged(quickDateTimeRange.dateRange),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          quickDateRange.label,
+                          quickDateTimeRange.label,
                           textAlign: TextAlign.left,
-                          style: theme.quickDateRangeTextStyle,
+                          style: theme.quickDateTimeRangeTextStyle,
                         ),
                       ),
                     ),

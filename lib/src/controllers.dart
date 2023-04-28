@@ -1,19 +1,19 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_date_range_picker/src/models.dart';
 
 /// A controller that handles the logic of the date range picker.
 class RangePickerController {
   RangePickerController(
-      {DateRange? dateRange,
-      required this.onDateRangeChanged,
+      {DateTimeRange? dateRange,
+      required this.onDateTimeRangeChanged,
       this.minDate,
       this.maxDate,
       this.startDate,
       this.endDate,
-      this.minimumDateRangeLength,
-      this.maximumDateRangeLength,
+      this.minimumDateTimeRangeLength,
+      this.maximumDateTimeRangeLength,
       this.disabledDates = const []}) {
     if (dateRange != null) {
       startDate = dateRange.start;
@@ -21,12 +21,12 @@ class RangePickerController {
     }
   }
 
-  int? maximumDateRangeLength;
-  int? minimumDateRangeLength;
+  int? maximumDateTimeRangeLength;
+  int? minimumDateTimeRangeLength;
 
   List<DateTime> disabledDates;
 
-  final ValueChanged<DateRange?> onDateRangeChanged;
+  final ValueChanged<DateTimeRange?> onDateTimeRangeChanged;
 
   /// The minimum date that can be selected. (inclusive)
   DateTime? minDate;
@@ -40,12 +40,12 @@ class RangePickerController {
   /// The end date of the selected range.
   DateTime? endDate;
 
-  DateRange? get dateRange {
+  DateTimeRange? get dateRange {
     if (startDate == null || endDate == null) {
       return null;
     }
 
-    return DateRange(startDate!, endDate!);
+    return DateTimeRange(start: startDate!, end: endDate!);
   }
 
   /// Called when the user selects a date in the calendar.
@@ -58,14 +58,14 @@ class RangePickerController {
   void onDateChanged(DateTime date) {
     if (startDate == null) {
       startDate = date;
-      onDateRangeChanged(DateRange(startDate!, startDate!));
+      onDateTimeRangeChanged(DateTimeRange(start: startDate!, end: startDate!));
     } else if (endDate == null) {
       if (date.isBefore(startDate!)) {
         startDate = date;
         endDate = null;
       } else {
         endDate = date;
-        onDateRangeChanged(DateRange(startDate!, endDate!));
+        onDateTimeRangeChanged(DateTimeRange(start: startDate!, end: endDate!));
       }
     } else {
       startDate = date;
@@ -78,8 +78,7 @@ class RangePickerController {
     if (startDate == null || endDate == null) {
       return false;
     }
-    return dateIsStartOrEnd(date) ||
-        (date.isAfter(startDate!) && date.isBefore(endDate!));
+    return dateIsStartOrEnd(date) || (date.isAfter(startDate!) && date.isBefore(endDate!));
   }
 
   bool areSameDay(DateTime one, DateTime two) {
@@ -96,14 +95,13 @@ class RangePickerController {
 
     if (startDate != null && endDate == null) {
       var dateDifference = date.difference(startDate!).inDays;
-      if (maximumDateRangeLength != null &&
-          dateDifference + 1 > maximumDateRangeLength!) {
+      if (maximumDateTimeRangeLength != null && dateDifference + 1 > maximumDateTimeRangeLength!) {
         return false;
       }
 
-      if (minimumDateRangeLength != null &&
+      if (minimumDateTimeRangeLength != null &&
           dateDifference > 0 &&
-          dateDifference + 1 < minimumDateRangeLength!) {
+          dateDifference + 1 < minimumDateTimeRangeLength!) {
         return false;
       }
     }
@@ -174,10 +172,10 @@ class RangePickerController {
     return firstDayOfMonth.weekday - 1;
   }
 
-  void onDateRangeChangedExternally(DateRange? newRange) {
+  void onDateTimeRangeChangedExternally(DateTimeRange? newRange) {
     startDate = newRange?.start;
     endDate = newRange?.end;
-    onDateRangeChanged(newRange);
+    onDateTimeRangeChanged(newRange);
   }
 }
 
@@ -208,8 +206,7 @@ class CalendarWidgetController {
   }
 
   /// The next month that can be displayed (two months can be displayed at the same time).
-  DateTime get nextMonth =>
-      DateTime(currentMonth.year, currentMonth.month + 1, 1);
+  DateTime get nextMonth => DateTime(currentMonth.year, currentMonth.month + 1, 1);
 
   /// Goes to the next month.
   void next() {
@@ -246,15 +243,15 @@ class CalendarWidgetController {
     return controller.retrieveDeltaForMonth(nextMonth);
   }
 
-  void setDateRange(DateRange? dateRange) {
+  void setDateTimeRange(DateTimeRange? dateRange) {
     _streamController.add(null);
 
     if (dateRange == null) {
-      controller.onDateRangeChangedExternally(null);
+      controller.onDateTimeRangeChangedExternally(null);
       return;
     }
 
-    controller.onDateRangeChangedExternally(dateRange);
+    controller.onDateTimeRangeChangedExternally(dateRange);
     currentMonth = dateRange.start;
   }
 }

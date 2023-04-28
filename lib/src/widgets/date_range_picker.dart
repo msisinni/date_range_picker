@@ -54,10 +54,8 @@ Widget kDayTileBuilder(
     value: dayModel.date,
     onTap: dayModel.isSelectable ? onTap : null,
     radius: BorderRadius.horizontal(
-      left: Radius.circular(
-          dayModel.isEnd && dayModel.isInRange ? 0 : theme.radius),
-      right: Radius.circular(
-          dayModel.isStart && dayModel.isInRange ? 0 : theme.radius),
+      left: Radius.circular(dayModel.isEnd && dayModel.isInRange ? 0 : theme.radius),
+      right: Radius.circular(dayModel.isStart && dayModel.isInRange ? 0 : theme.radius),
     ),
     backgroundRadius: BorderRadius.horizontal(
       left: Radius.circular(dayModel.isStart ? theme.radius : 0),
@@ -103,56 +101,56 @@ class DayNamesRow extends StatelessWidget {
 
 /// A widget that displays a date range picker.
 ///
-/// The onDateRangeChanged callback is called whenever the selected date range
+/// The onDateTimeRangeChanged callback is called whenever the selected date range
 /// is changed.
 ///
 /// The initialDisplayedDate is the date that is initially displayed when the
 /// picker is opened. If no initial date is provided, the current date is used.
 ///
-/// The minimumDateRangeLength and maximumDateRangeLength properties can be used
+/// The minimumDateTimeRangeLength and maximumDateTimeRangeLength properties can be used
 /// to limit the length of the selected date range.
 ///
 /// The doubleMonth property can be set to true to display two months at a time.
 ///
 /// The disabledDates property can be used to disable specific dates.
 ///
-/// The quickDateRanges property can be used to display a list of quick selection
+/// The quickDateTimeRanges property can be used to display a list of quick selection
 /// dateRanges at the top of the picker.
 ///
 /// The height property can be used to set the height of the picker.
 ///
 /// The theme property can be used to customize the appearance of the picker.
-class DateRangePickerWidget extends StatefulWidget {
-  const DateRangePickerWidget({
+class DateTimeRangePickerWidget extends StatefulWidget {
+  const DateTimeRangePickerWidget({
     Key? key,
-    required this.onDateRangeChanged,
+    required this.onDateTimeRangeChanged,
     this.initialDisplayedDate,
-    this.minimumDateRangeLength,
-    this.initialDateRange,
+    this.minimumDateTimeRangeLength,
+    this.initialDateTimeRange,
     this.minDate,
     this.maxDate,
     this.theme = kTheme,
-    this.maximumDateRangeLength,
+    this.maximumDateTimeRangeLength,
     this.disabledDates = const [],
-    this.quickDateRanges = const [],
+    this.quickDateTimeRanges = const [],
     this.doubleMonth = true,
     this.height = 329,
   }) : super(key: key);
 
   /// Called whenever the selected date range is changed.
-  final ValueChanged<DateRange?> onDateRangeChanged;
+  final ValueChanged<DateTimeRange?> onDateTimeRangeChanged;
 
   /// A list of quick selection dateRanges displayed at the top of the picker.
-  final List<QuickDateRange> quickDateRanges;
+  final List<QuickDateTimeRange> quickDateTimeRanges;
 
   /// The initial selected date range.
-  final DateRange? initialDateRange;
+  final DateTimeRange? initialDateTimeRange;
 
   /// The maximum length of the selected date range.
-  final int? maximumDateRangeLength;
+  final int? maximumDateTimeRangeLength;
 
   /// The minimum length of the selected date range.
-  final int? minimumDateRangeLength;
+  final int? minimumDateTimeRangeLength;
 
   /// Set to true to display two months at a time.
   final bool doubleMonth;
@@ -176,25 +174,23 @@ class DateRangePickerWidget extends StatefulWidget {
   final CalendarTheme theme;
 
   @override
-  State<DateRangePickerWidget> createState() => DateRangePickerWidgetState();
+  State<DateTimeRangePickerWidget> createState() => DateTimeRangePickerWidgetState();
 }
 
-class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
+class DateTimeRangePickerWidgetState extends State<DateTimeRangePickerWidget> {
   late final controller = RangePickerController(
-    dateRange: widget.initialDateRange,
+    dateRange: widget.initialDateTimeRange,
     minDate: widget.minDate,
     maxDate: widget.maxDate,
-    onDateRangeChanged: widget.onDateRangeChanged,
+    onDateTimeRangeChanged: widget.onDateTimeRangeChanged,
     disabledDates: widget.disabledDates,
-    minimumDateRangeLength: widget.minimumDateRangeLength,
-    maximumDateRangeLength: widget.maximumDateRangeLength,
+    minimumDateTimeRangeLength: widget.minimumDateTimeRangeLength,
+    maximumDateTimeRangeLength: widget.maximumDateTimeRangeLength,
   );
 
   late final calendarController = CalendarWidgetController(
     controller: controller,
-    currentMonth: widget.initialDisplayedDate ??
-        widget.initialDateRange?.start ??
-        DateTime.now(),
+    currentMonth: widget.initialDisplayedDate ?? widget.initialDateTimeRange?.start ?? DateTime.now(),
   );
 
   late final StreamSubscription subscription;
@@ -253,7 +249,7 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
       ],
     );
 
-    if (widget.quickDateRanges.isNotEmpty) {
+    if (widget.quickDateTimeRanges.isNotEmpty) {
       child = Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -261,10 +257,10 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
           SizedBox(
             width: 200,
             child: QuickSelectorWidget(
-              selectedDateRange: controller.dateRange,
-              quickDateRanges: widget.quickDateRanges,
-              onDateRangeChanged: (dateRange) {
-                calendarController.setDateRange(dateRange);
+              selectedDateTimeRange: controller.dateRange,
+              quickDateTimeRanges: widget.quickDateTimeRanges,
+              onDateTimeRangeChanged: (dateRange) {
+                calendarController.setDateTimeRange(dateRange);
               },
               theme: widget.theme,
             ),
@@ -276,7 +272,7 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
             margin: const EdgeInsets.symmetric(horizontal: 16),
           ),
           child,
-          if (widget.quickDateRanges.isNotEmpty)
+          if (widget.quickDateTimeRanges.isNotEmpty)
             const SizedBox(
               width: 16,
             ),

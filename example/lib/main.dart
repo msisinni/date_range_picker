@@ -30,7 +30,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  DateRange? selectedDateRange;
+  DateTimeRange? selectedDateTimeRange;
 
   @override
   Widget build(BuildContext context) {
@@ -50,17 +50,17 @@ class _MyHomePageState extends State<MyHomePage> {
                   Container(
                     padding: const EdgeInsets.all(8),
                     width: 250,
-                    child: DateRangeField(
+                    child: DateTimeRangeField(
                       decoration: const InputDecoration(
                         label: Text("Date range picker"),
                         hintText: 'Please select a date range',
                       ),
-                      onDateRangeSelected: (DateRange? value) {
+                      onDateTimeRangeSelected: (DateTimeRange? value) {
                         setState(() {
-                          selectedDateRange = value;
+                          selectedDateTimeRange = value;
                         });
                       },
-                      selectedDateRange: selectedDateRange,
+                      selectedDateTimeRange: selectedDateTimeRange,
                       pickerBuilder: datePickerBuilder,
                     ),
                   ),
@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Container(
                     padding: const EdgeInsets.all(8),
                     width: 250,
-                    child: DateRangeFormField(
+                    child: DateTimeRangeFormField(
                       decoration: const InputDecoration(
                         label: Text("Date range picker"),
                         hintText: 'Please select a date range',
@@ -93,12 +93,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     const SizedBox(height: 20),
                     SizedBox(
                       width: 560,
-                      child: DateRangePickerWidget(
-                        maximumDateRangeLength: 10,
-                        minimumDateRangeLength: 3,
+                      child: DateTimeRangePickerWidget(
+                        maximumDateTimeRangeLength: 10,
+                        minimumDateTimeRangeLength: 3,
                         disabledDates: [DateTime(2023, 11, 20)],
                         initialDisplayedDate: DateTime(2023, 11, 20),
-                        onDateRangeChanged: print,
+                        onDateTimeRangeChanged: print,
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -115,8 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     const SizedBox(height: 20),
                     const Text("A button to open the picker:"),
                     TextButton(
-                      onPressed: () => showDateRangePickerDialog(
-                          context: context, builder: datePickerBuilder),
+                      onPressed: () => showDateTimeRangePickerDialog(context: context, builder: datePickerBuilder),
                       child: const Text("Open the picker"),
                     ),
                     const SizedBox(height: 20),
@@ -125,50 +124,45 @@ class _MyHomePageState extends State<MyHomePage> {
                       width: 250,
                       height: 100,
                       child: QuickSelectorWidget(
-                          selectedDateRange: selectedDateRange,
-                          quickDateRanges: [
-                            QuickDateRange(
+                          selectedDateTimeRange: selectedDateTimeRange,
+                          quickDateTimeRanges: [
+                            QuickDateTimeRange(
                               label: 'Last 3 days',
-                              dateRange: DateRange(
-                                DateTime.now()
-                                    .subtract(const Duration(days: 3)),
-                                DateTime.now(),
+                              dateRange: DateTimeRange(
+                                start: DateTime.now().subtract(const Duration(days: 3)),
+                                end: DateTime.now(),
                               ),
                             ),
-                            QuickDateRange(
+                            QuickDateTimeRange(
                               label: 'Last 7 days',
-                              dateRange: DateRange(
-                                DateTime.now()
-                                    .subtract(const Duration(days: 7)),
-                                DateTime.now(),
+                              dateRange: DateTimeRange(
+                                start: DateTime.now().subtract(const Duration(days: 7)),
+                                end: DateTime.now(),
                               ),
                             ),
-                            QuickDateRange(
+                            QuickDateTimeRange(
                               label: 'Last 30 days',
-                              dateRange: DateRange(
-                                DateTime.now()
-                                    .subtract(const Duration(days: 30)),
-                                DateTime.now(),
+                              dateRange: DateTimeRange(
+                                start: DateTime.now().subtract(const Duration(days: 30)),
+                                end: DateTime.now(),
                               ),
                             ),
-                            QuickDateRange(
+                            QuickDateTimeRange(
                               label: 'Last 90 days',
-                              dateRange: DateRange(
-                                DateTime.now()
-                                    .subtract(const Duration(days: 90)),
-                                DateTime.now(),
+                              dateRange: DateTimeRange(
+                                start: DateTime.now().subtract(const Duration(days: 90)),
+                                end: DateTime.now(),
                               ),
                             ),
-                            QuickDateRange(
+                            QuickDateTimeRange(
                               label: 'Last 180 days',
-                              dateRange: DateRange(
-                                DateTime.now()
-                                    .subtract(const Duration(days: 180)),
-                                DateTime.now(),
+                              dateRange: DateTimeRange(
+                                start: DateTime.now().subtract(const Duration(days: 180)),
+                                end: DateTime.now(),
                               ),
                             ),
                           ],
-                          onDateRangeChanged: print,
+                          onDateTimeRangeChanged: print,
                           theme: kTheme),
                     )
                   ],
@@ -181,55 +175,53 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget datePickerBuilder(
-          BuildContext context, dynamic Function(DateRange?) onDateRangeChanged,
+  Widget datePickerBuilder(BuildContext context, dynamic Function(DateTimeRange?) onDateTimeRangeChanged,
           [bool doubleMonth = true]) =>
-      DateRangePickerWidget(
+      DateTimeRangePickerWidget(
         doubleMonth: doubleMonth,
-        maximumDateRangeLength: 10,
-        quickDateRanges: [
-          QuickDateRange(dateRange: null, label: "Remove date range"),
-          QuickDateRange(
+        maximumDateTimeRangeLength: 10,
+        quickDateTimeRanges: [
+          QuickDateTimeRange(dateRange: null, label: "Remove date range"),
+          QuickDateTimeRange(
             label: 'Last 3 days',
-            dateRange: DateRange(
-              DateTime.now().subtract(const Duration(days: 3)),
-              DateTime.now(),
+            dateRange: DateTimeRange(
+              start: DateTime.now().subtract(const Duration(days: 3)),
+              end: DateTime.now(),
             ),
           ),
-          QuickDateRange(
+          QuickDateTimeRange(
             label: 'Last 7 days',
-            dateRange: DateRange(
-              DateTime.now().subtract(const Duration(days: 7)),
-              DateTime.now(),
+            dateRange: DateTimeRange(
+              start: DateTime.now().subtract(const Duration(days: 7)),
+              end: DateTime.now(),
             ),
           ),
-          QuickDateRange(
+          QuickDateTimeRange(
             label: 'Last 30 days',
-            dateRange: DateRange(
-              DateTime.now().subtract(const Duration(days: 30)),
-              DateTime.now(),
+            dateRange: DateTimeRange(
+              start: DateTime.now().subtract(const Duration(days: 30)),
+              end: DateTime.now(),
             ),
           ),
-          QuickDateRange(
+          QuickDateTimeRange(
             label: 'Last 90 days',
-            dateRange: DateRange(
-              DateTime.now().subtract(const Duration(days: 90)),
-              DateTime.now(),
+            dateRange: DateTimeRange(
+              start: DateTime.now().subtract(const Duration(days: 90)),
+              end: DateTime.now(),
             ),
           ),
-          QuickDateRange(
+          QuickDateTimeRange(
             label: 'Last 180 days',
-            dateRange: DateRange(
-              DateTime.now().subtract(const Duration(days: 180)),
-              DateTime.now(),
+            dateRange: DateTimeRange(
+              start: DateTime.now().subtract(const Duration(days: 180)),
+              end: DateTime.now(),
             ),
           ),
         ],
-        minimumDateRangeLength: 3,
-        initialDateRange: selectedDateRange,
+        minimumDateTimeRangeLength: 3,
+        initialDateTimeRange: selectedDateTimeRange,
         disabledDates: [DateTime(2023, 11, 20)],
-        initialDisplayedDate:
-            selectedDateRange?.start ?? DateTime(2023, 11, 20),
-        onDateRangeChanged: onDateRangeChanged,
+        initialDisplayedDate: selectedDateTimeRange?.start ?? DateTime(2023, 11, 20),
+        onDateTimeRangeChanged: onDateTimeRangeChanged,
       );
 }

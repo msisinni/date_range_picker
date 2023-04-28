@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_date_range_picker/flutter_date_range_picker.dart';
 import 'package:flutter_date_range_picker/src/widgets/typedefs.dart';
 
 /// A function to show the dateRange picker dialog.
@@ -9,17 +8,17 @@ import 'package:flutter_date_range_picker/src/widgets/typedefs.dart';
 ///  * [barrierColor] - The color of the barrier.
 ///  * [footerBuilder] - A builder to construct the footer widget of the dialog.
 ///  * [offset] - The offset of the dialog from the widget.
-///  * [onDateRangeSelected] - Called when a date range is selected.
-Future<DateRange?> showDateRangePickerDialog({
+///  * [onDateTimeRangeSelected] - Called when a date range is selected.
+Future<DateTimeRange?> showDateTimeRangePickerDialog({
   required BuildContext context,
-  required DateRangerPickerWidgetBuilder builder,
+  required DateTimeRangerPickerWidgetBuilder builder,
   Color barrierColor = Colors.transparent,
-  Widget Function({DateRange? selectedDateRange})? footerBuilder,
+  Widget Function({DateTimeRange? selectedDateTimeRange})? footerBuilder,
   Offset? offset,
 }) {
   return showGeneralDialog(
     context: context,
-    barrierLabel: 'DateRangePickerDialogBarrier',
+    barrierLabel: 'DateTimeRangePickerDialogBarrier',
     barrierColor: barrierColor,
     barrierDismissible: true,
     pageBuilder: (_, __, ___) {
@@ -28,9 +27,9 @@ Future<DateRange?> showDateRangePickerDialog({
           Positioned(
             top: offset?.dy ?? 0,
             left: offset?.dx ?? 0,
-            child: DateRangePickerDialog(
+            child: DateTimeRangePickerDialog(
               builder: builder,
-              footerBuilder: footerBuilder ?? DateRangePickerDialogFooter.new,
+              footerBuilder: footerBuilder ?? DateTimeRangePickerDialogFooter.new,
             ),
           ),
         ],
@@ -45,14 +44,14 @@ Future<DateRange?> showDateRangePickerDialog({
 /// * [dialogFooterBuilder] - A builder to construct the footer widget of the dialog.
 /// * [pickerBuilder] - A builder to construct the date range picker widget.
 /// * [delta] - The offset of the dialog from the widget.
-/// * [onDateRangeSelected] - Called when a date range is selected.
+/// * [onDateTimeRangeSelected] - Called when a date range is selected.
 /// * [barrierColor] - The color of the barrier.
-Future<DateRange?> showDateRangePickerDialogOnWidget({
+Future<DateTimeRange?> showDateTimeRangePickerDialogOnWidget({
   required BuildContext widgetContext,
-  required DateRangerPickerWidgetBuilder pickerBuilder,
+  required DateTimeRangerPickerWidgetBuilder pickerBuilder,
   BuildContext? context,
   Color barrierColor = Colors.transparent,
-  Widget Function({DateRange? selectedDateRange})? dialogFooterBuilder,
+  Widget Function({DateTimeRange? selectedDateTimeRange})? dialogFooterBuilder,
   Offset delta = const Offset(0, 60),
 }) {
   // Compute widget position on screen
@@ -60,7 +59,7 @@ Future<DateRange?> showDateRangePickerDialogOnWidget({
   final Offset offset = renderBox.localToGlobal(Offset.zero);
 
   // Show the dateRange picker dialog and get the selected date range
-  final dateRange = showDateRangePickerDialog(
+  final dateRange = showDateTimeRangePickerDialog(
       context: context ?? widgetContext,
       footerBuilder: dialogFooterBuilder,
       barrierColor: barrierColor,
@@ -71,27 +70,27 @@ Future<DateRange?> showDateRangePickerDialogOnWidget({
 }
 
 /// A dialog for selecting a date range dateRange.
-class DateRangePickerDialog extends StatefulWidget {
-  const DateRangePickerDialog({
+class DateTimeRangePickerDialog extends StatefulWidget {
+  const DateTimeRangePickerDialog({
     Key? key,
     required this.builder,
     required this.footerBuilder,
   }) : super(key: key);
 
   /// A function that builds a widget that will be used to display the date range picker.
-  final DateRangerPickerWidgetBuilder builder;
+  final DateTimeRangerPickerWidgetBuilder builder;
 
   /// A function that builds a widget that will be used to display the footer.
   /// The selected dateRange will be passed to the footer builder. It can be null if
   /// no dateRange is selected yet.
-  final Widget Function({DateRange? selectedDateRange}) footerBuilder;
+  final Widget Function({DateTimeRange? selectedDateTimeRange}) footerBuilder;
 
   @override
-  State<DateRangePickerDialog> createState() => _DateRangePickerDialogState();
+  State<DateTimeRangePickerDialog> createState() => _DateTimeRangePickerDialogState();
 }
 
-class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
-  DateRange? dateRange;
+class _DateTimeRangePickerDialogState extends State<DateTimeRangePickerDialog> {
+  DateTimeRange? dateRange;
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +132,7 @@ class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
                     });
                   }),
                 ),
-                widget.footerBuilder(selectedDateRange: dateRange),
+                widget.footerBuilder(selectedDateTimeRange: dateRange),
               ],
             ),
           ],
@@ -144,17 +143,17 @@ class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
 }
 
 /// The default footer for the dateRange picker dialog.
-class DateRangePickerDialogFooter extends StatelessWidget {
-  const DateRangePickerDialogFooter({
+class DateTimeRangePickerDialogFooter extends StatelessWidget {
+  const DateTimeRangePickerDialogFooter({
     super.key,
-    this.selectedDateRange,
+    this.selectedDateTimeRange,
     this.cancelText = "Cancel",
     this.confirmText = "Confirm",
   });
 
   final String cancelText;
   final String confirmText;
-  final DateRange? selectedDateRange;
+  final DateTimeRange? selectedDateTimeRange;
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +169,7 @@ class DateRangePickerDialogFooter extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop(selectedDateRange);
+              Navigator.of(context).pop(selectedDateTimeRange);
             },
             child: Text(confirmText),
           ),
